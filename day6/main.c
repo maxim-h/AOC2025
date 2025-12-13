@@ -5,7 +5,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include <errno.h>
-#include "DynArray.h"
+#include "../lib/DynArray.h"
 
 int parse_line(char* line, size_t_da_t* parsed_line) {
     if (*line == '*' || *line == '+') {

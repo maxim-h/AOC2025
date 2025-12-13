@@ -3,58 +3,9 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
+#include "../lib/DynArray.h"
 
 static char range_separator = '-';
-
-typedef struct {
-    size_t capacity;
-    size_t count;
-    void** elements;
-} DA;
-
-DA* da_init(size_t initial_capacity) {
-    DA* result = malloc(sizeof(DA));
-    void* elements = malloc(initial_capacity*sizeof(void *));
-    DA da = {
-        initial_capacity,
-        0,
-        elements
-    };
-    *result = da;
-
-    return result;
-}
-
-// Very shitty and slow. Not very N+2
-int da_free(DA* da) {
-    for (size_t i=0; i < da->count; i++) {
-        free(da->elements[i]);
-    }
-    free(da->elements);
-    free(da);
-
-    return 0;
-}
-
-int da_append(DA* da, void* new, size_t size) {
-    if ((da->count + size) > da->capacity) {
-        void* new_elements = realloc(da->elements, 2*(da->capacity)*sizeof(void *));
-        if (new_elements == NULL) return 1;
-        da->elements = new_elements;
-        da->capacity = 2*(da->capacity);
-    }
-
-    da->elements[da->count] = new;
-    da->count += size;
-
-    return 0;
-}
-
-void* da_element(DA* da, size_t i) {
-    if (i > da->count) return NULL;
-    return da->elements[i];
-
-}
 
 typedef struct {
     size_t start;
