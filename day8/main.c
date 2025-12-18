@@ -9,9 +9,9 @@
 #include "../lib/DynArray.h"
 
 typedef struct {
-    int32_t x;
-    int32_t y;
-    int32_t z;
+    int64_t x;
+    int64_t y;
+    int64_t z;
 } Point;
 
 typedef struct {
@@ -81,7 +81,7 @@ void print_component(Vec *el) {
         void **pp = vec_element(el, j);
         Point *p = *pp;
         if (j > 0) printf("<->");
-        printf("{%d,%d,%d}", p->x, p->y, p->z);
+        printf("{%lld,%lld,%lld}", p->x, p->y, p->z);
     }
     printf("\n");
 }
@@ -140,7 +140,7 @@ int connect_components(PDist pd, Vec *components) {
         return 0;
 }
 
-int solution1(Vec *components, PDist *dists, size_t N_dists, size_t n_integrations, size_t top_n) {
+int solution1(Vec *components, PDist *dists, size_t n_integrations, size_t top_n) {
     size_t result = 1;
 
     for (size_t i = 0; i < n_integrations; i++) {
@@ -212,7 +212,6 @@ int main(int argc, char* argv[]) {
     for (size_t i=0; i < N; i++) {
         for (size_t j=i+1; j < N; j++) {
             dists[dist_index(i, j, N)] = dist(vec_element(points, i), vec_element(points, j));
-            PDist pd = dists[dist_index(i, j, N)];
         }
     }
 
@@ -228,6 +227,6 @@ int main(int argc, char* argv[]) {
             vec_append(components, &component, 1);
     }
 
-    // return solution1(components, dists, N_dists, n_integrations, top_n);
+    // return solution1(components, dists, n_integrations, top_n);
     return solution2(components, dists, N_dists);
 }
